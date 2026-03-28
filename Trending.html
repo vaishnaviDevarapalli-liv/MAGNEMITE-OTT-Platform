@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGNEMITE</title>
+    <link rel="icon" href="../ott_project_us_js/img2/img/f-t-2.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #141414;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar.transparent {
+            background-color: transparent;
+        }
+
+        .navbar.solid {
+            background-color: black;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .navbar-nav {
+            margin-right: 20px;
+        }
+
+        .nav-item {
+            margin-right: 15px;
+            position: relative;
+        }
+
+        .nav-link {
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: red;
+        }
+        .dropdown-content {
+  display: none; 
+  position: absolute;
+  background-color: #0a0a0a;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  list-style-type: none; 
+  padding: 0; 
+  margin: 0; 
+}
+
+.dropdown-content li a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none; 
+  color: rgb(187, 64, 64);
+}
+
+.dropdown-content li a:hover {
+  background-color: #363636;
+}
+
+.nav-item:hover .dropdown-content {
+  display: block; 
+}
+        .nav-link::after {
+            content: "";
+            display: block;
+            width: 0;
+            height: 2px;
+            background: red;
+            transition: width 0.3s ease;
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        .carousel {
+            max-height: 750px;
+            /* Controls overall height */
+            overflow: hidden;
+        }
+
+        .carousel img {
+            object-fit: cover;
+            height: 750px;
+            /* Ensures images don’t stretch */
+        }
+
+        .container {
+            padding: 10px;
+            max-width: 95vw;
+            margin-top: 0x;
+        }
+
+        .movie {
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .movie img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .movie:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        .info {
+            position: relative;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 0 0 5px 5px;
+            display: none;
+        }
+
+        .movie:hover .info {
+            display: block;
+        }
+
+        .info h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .info p {
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions i {
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+            color: white;
+        }
+
+        .liked {
+            color: red !important;
+            transform: scale(1.2);
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .card {
+            width: 100%;
+            height: 180px;
+            border: none;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 5px;
+            transition: 0.3s ease;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card:hover img {
+            border: 2px solid white;
+        }
+
+        .tag {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: red;
+            padding: 5px;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .card {
+            margin-bottom: 15px;
+        }
+        .foot{
+        height:400px;
+        width:100%;
+        background-color: rgb(22, 22, 22);
+        overflow-x: hidden;
+        padding: 10px;
+    }
+    .foot-1{
+        margin-top: 50px;
+        margin-left: 50px;
+        margin-right: 10px;
+
+    }
+    .foot h5{
+        color: red;
+        font-style: italic;
+        font-weight: bold;
+        text-align: center;
+    }
+    .foot span{
+        font-size: small;
+        color: #a3a3a3;
+    }
+    .cont-act{
+        display:flex;
+        justify-content: space-around;
+    }
+    .c span{
+        font-size: small;
+        color: #a3a3a3;
+    }
+    .c span:hover {
+        color:red; 
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px; 
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .social-icons li {
+      display: inline-block;
+    }
+
+    .social-icons a {
+      text-decoration: none;
+      color: #a3a3a3; 
+      font-size: 24px; 
+    }
+
+    .social-icons a:hover {
+      color: rgb(244, 20, 20); 
+    }
+    .foot-2{
+        margin-top: 10px;
+    }
+       
+        @media (max-width: 767px) {
+            .info {
+                display: none !important;
+            }
+
+            .movie:hover {
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+   <nav class="navbar navbar-expand-lg transparent" id="navbar">
+        <div class="container">
+            <a class="navbar-brand text-danger fw-bold fs-3" href="../ott_project_us_js/ott-html.html">MAGNEMITE</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="../ott_project_us_js/ott-html.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">TV Series</a></li>
+                    <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+                    <li class="nav-item"><a class="nav-link text-danger fw-bold" href="#">Trending</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    
+                    <li class="nav-item ms-lg-3" id="auth-area">
+                        <button class="btn btn-danger btn-sm fw-bold px-3" data-bs-toggle="modal" data-bs-target="#authModal">Sign In</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+        </div>
+    </nav>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../ott_project_us_js/img2/img/1.jpeg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>First slide label</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../ott_project_us_js/img2/img/17.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Second slide label</h5>
+                    <p>Some representative placeholder content for the second slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../ott_project_us_js/img2/img/10.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Third slide label</h5>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="container mt-4">
+        <div class="title">Your Next Watch</div>
+        <div class="row g-3">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                <div class="movie">
+                    <img src="../ott_project_us_js/img2/img/12.jpg" alt="Movie Thumbnail">
+                    <div class="info">
+                        <h5>Back in Action</h5>
+                        <p><span style="color: green; font-weight: bold;">82% Match</span> | U/A 13+ | 1h 54m | HD</p>
+                        <p>Action • Comedy</p>
+                        <div class="actions">
+                            <i class="fa-solid fa-play"></i>
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-heart like-btn" onclick="toggleLike(this)"></i>
+
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                <div class="movie">
+                    <img src="../ott_project_us_js/img2/img/15.jpg" alt="Movie Thumbnail">
+                    <div class="info">
+                        <h5>Movie Title</h5>
+                        <p><span style="color: green; font-weight: bold;">78% Match</span> | U/A 16+ | 2h 10m | HD</p>
+                        <p>Thriller • Drama</p>
+                        <div class="actions">
+                            <i class="fa-solid fa-play"></i>
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-heart like-btn" onclick="toggleLike(this)"></i>
+
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                <div class="movie">
+                    <img src="../ott_project_us_js/img2/img/17.jpg" alt="Movie Thumbnail">
+                    <div class="info">
+                        <h5>Another Movie</h5>
+                        <p><span style="color: green; font-weight: bold;">90% Match</span> | U/A 18+ | 1h 40m | HD</p>
+                        <p>Horror • Mystery</p>
+                        <div class="actions">
+                            <a href="../ott_project_us_js/movie.html"><i class="fa-solid fa-play"></i></a>
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-heart like-btn" onclick="toggleLike(this)"></i>
+
+                            <a href="../ott_project_us_js/Johnwick.html"> <i class="fa-solid fa-angle-down"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                <div class="movie">
+                    <img src="../ott_project_us_js/img2/img/10.jpg" alt="Movie Thumbnail">
+                    <div class="info">
+                        <h5>Classic Hit</h5>
+                        <p><span style="color: green; font-weight: bold;">85% Match</span> | U/A 7+ | 1h 20m | HD</p>
+                        <p>Family • Animation</p>
+                        <div class="actions">
+                            <i class="fa-solid fa-play"></i>
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-heart like-btn" onclick="toggleLike(this)"></i>
+
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                <div class="movie">
+                    <img src="../ott_project_us_js/img2/img/17.jpg" alt="Movie Thumbnail">
+                    <div class="info">
+                        <h5>Superhero Saga</h5>
+                        <p><span style="color: green; font-weight: bold;">88% Match</span> | U/A 13+ | 2h 30m | HD</p>
+                        <p>Action • Sci-Fi</p>
+                        <div class="actions">
+                            <i class="fa-solid fa-play"></i>
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-heart like-btn" onclick="toggleLike(this)"></i>
+
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2">
+                <div class="movie">
+                    <img src="../ott_project_us_js/img2/img/5.jpg" alt="Movie Thumbnail">
+                    <div class="info">
+                        <h5>Final Showdown</h5>
+                        <p><span style="color: green; font-weight: bold;">80% Match</span> | U/A 12+ | 2h 5m | HD</p>
+                        <p>Action • Thriller</p>
+                        <div class="actions">
+                            <i class="fa-solid fa-play"></i>
+                            <i class="fa-solid fa-plus"></i>
+                            <i class="fa-solid fa-heart like-btn" onclick="toggleLike(this)"></i>
+
+                            <i class="fa-solid fa-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="title">Only on Magnemite</div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-2 position-relative">
+                <div class="card">
+                    <img src="../ott_project_us_js/img2/img/8.jpg" alt="Movie">
+                    <span class="tag">Recently Added</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/9.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/5.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/4.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/13.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/15.jpg" alt="Movie"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="title">European Movies</div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-2 position-relative">
+                <div class="card">
+                    <img src="../ott_project_us_js/img2/img/17.jpg" alt="Movie">
+
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/10.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/12.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/14.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/14.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/1.jpeg" alt="Movie"><span class="tag">Recently
+                        Added</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="title">Psychological Thriller</div>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-2 position-relative">
+                <div class="card">
+                    <img src="../ott_project_us_js/img2/img/14.jpg" alt="Movie">
+                    <span class="tag">Recently Added</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/17.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/7.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/3.jpg" alt="Movie"><span class="tag">Recently
+                        Added</span></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/19.jpg" alt="Movie"></div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-2">
+                <div class="card"><img src="../ott_project_us_js/img2/img/12.jpg" alt="Movie"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="foot">
+            <div class="row foot-1">
+                <div class="col-md-3">
+                    <h5>About Us</h5>
+                    <span>your ultimate destination for premium entertainment. We bring you a diverse range of movies, TV shows, and exclusive content, all tailored to suit your preferences. At Magnemite, we believe in delivering seamless streaming experiences, ensuring that you stay entertained anytime, anywhere. Join us and explore a world of stories that inspire, excite, and captivate.</span>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <div class="cont-act">
+                        <div class="c1 c">
+                            <p>via &#9742; :</p> <span >91+ 8976543210</span><br>
+                        </div>
+                        <div class="c2 c">
+                            <p>via &#9993; :</p> <span>magnemite@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Social Media</h5>
+                    <div class="ic">
+                        <ul class="social-icons">
+                            <li><a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a></li>
+                            <li><a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+                          </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Partners</h5>
+                    <div class="c">
+                        <span>Akamai</span><br>
+                        <span>Brightcove</span><br>
+                        <span>Dolby</span>
+                    </div>
+                </div>
+            </div>  
+            <div class="row foot-2 text-center">
+                <div class="col-md-12">
+                    <p>
+                        © 2025 Magnemite | All rights reserved.
+                    </p>
+                </div>
+            </div>  
+        </div>
+    </footer>
+    <script>
+        function toggleLike(element) {
+            element.classList.toggle("liked");
+        }
+
+        // Exact Navbar Sync Logic
+        function syncProfile() {
+            const authArea = document.getElementById("auth-area");
+            const userName = sessionStorage.getItem("userName");
+
+            if (userName) {
+                // Same Profile Button style as home page
+                authArea.innerHTML = `
+                    <a href="profile.html" class="nav-link d-flex align-items-center" style="padding: 0;">
+                         <span class="me-2 d-none d-lg-inline" style="font-size: 14px; color: white;">${userName}</span>
+                         <i class="fa-solid fa-circle-user fs-4 text-danger"></i>
+                    </a>
+                `;
+            }
+        }
+
+        window.addEventListener("scroll", function () {
+            var navbar = document.getElementById("navbar");
+            if (window.scrollY > 50) {
+                navbar.classList.add("solid");
+                navbar.classList.remove("transparent");
+            } else {
+                navbar.classList.add("transparent");
+                navbar.classList.remove("solid");
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", syncProfile);
+    </script>
+</body>
+
+</html>

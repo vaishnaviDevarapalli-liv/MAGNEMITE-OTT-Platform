@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTT Carousel</title>
+  <style>
+    body {
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+      color: #ff0000; /* Red color for heading */
+    }
+    
+    .carousel {
+      width: 1000px;
+      height: 400px;
+      position: relative;
+    }
+    
+    .images {
+      width: 100%;
+      height: 100%;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .image {
+      position: absolute;
+      width: 200px;
+      height: 300px;
+      top: 50px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      transition: all 0.5s;
+    }
+    
+    .center {
+      width: 260px;
+      height: 360px;
+      top: 20px;
+      z-index: 5;
+    }
+    
+    .image img {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Navigation Buttons */
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #ff0000; /* Red color */
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-size: 20px;
+    }
+    
+    /* Arrow styles */
+    .arrow {
+      border: solid white;
+      border-width: 0 4px 4px 0;
+      display: inline-block;
+      padding: 6px;
+    }
+    
+    .right {
+      transform: rotate(-45deg);
+    }
+    
+    .left {
+      transform: rotate(135deg);
+    }
+  </style>
+</head>
+<body>
+  <h1>Featured Movies</h1>
+  <div class="carousel">
+    <div class="images">
+      <div class="image"><img src="../ott_project_us_js/img2/img/1.jpeg" alt="Movie 1"></div>
+      <div class="image"><img src="../ott_project_us_js/img2/img/10.jpg" alt="Movie 2"></div>
+      <div class="image center"><img src="../ott_project_us_js/img2/img/11.jpg" alt="Movie 3"></div>
+      <div class="image"><img src="../ott_project_us_js/img2/img/12.jpg" alt="Movie 4"></div>
+      <div class="image"><img src="../ott_project_us_js/img2/img/13.jpg" alt="Movie 5"></div>
+    </div>
+  </div>
+  
+  <div class="nav-buttons">
+    <button id="prevBtn" class="nav-btn">&#9665;</button>
+    <button id="nextBtn" class="nav-btn">&#9655;</button>
+  </div>
+  
+  <script>
+const images = document.querySelectorAll('.image');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let position = 0;
+
+const positions = [
+  {x: -400, rotate: 30},
+  {x: -200, rotate: 20},
+  {x: 0, rotate: 0},
+  {x: 200, rotate: -20},
+  {x: 400, rotate: -30}
+];
+
+updateCarousel();
+
+nextBtn.addEventListener('click', function() {
+  position++;
+  if (position >= images.length) position = 0;
+  updateCarousel();
+});
+
+prevBtn.addEventListener('click', function() {
+  position--;
+  if (position < 0) position = images.length - 1;
+  updateCarousel();
+});
+
+function updateCarousel() {
+  images.forEach(img => img.classList.remove('center'));
+  
+  images.forEach((img, index) => {
+    let pos = (index - position) % images.length;
+    if (pos < 0) pos += images.length;
+    
+    if (pos >= 0 && pos <= 4) {
+      img.style.display = 'block';
+      img.style.transform = `translateX(${positions[pos].x}px) rotateY(${positions[pos].rotate}deg)`;
+      
+      if (pos === 2) {
+        img.classList.add('center');
+      }
+    } else {
+      img.style.display = 'none';
+    }
+  });
+}
+  </script>
+</body>
+</html>

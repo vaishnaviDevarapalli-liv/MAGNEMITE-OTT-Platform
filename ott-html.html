@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGNEMITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../ott_project_us_js/ott[1].css">
+
+    <style>
+        .auth-input-wrap { position: relative; margin-bottom: 6px; }
+        .auth-input-wrap input { padding-right: 40px; }
+        .input-icon {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            font-size: 13px; pointer-events: none;
+        }
+        .input-icon.valid   { color: #28a745; }
+        .input-icon.invalid { color: #e50914; }
+        .field-msg {
+            font-size: 11.5px; min-height: 16px; margin-bottom: 8px;
+            padding-left: 2px; transition: all 0.2s;
+        }
+        .field-msg.error   { color: #ff4d4d; }
+        .field-msg.success { color: #4caf82; }
+
+        .strength-bar-wrap { display: flex; gap: 4px; margin-bottom: 4px; }
+        .strength-bar-wrap span {
+            flex: 1; height: 3px; border-radius: 2px;
+            background: rgba(255,255,255,0.15); transition: background 0.3s;
+        }
+        .strength-bar-wrap span.weak   { background: #e50914; }
+        .strength-bar-wrap span.medium { background: #f0a500; }
+        .strength-bar-wrap span.strong { background: #28a745; }
+        .strength-label { font-size: 11px; margin-bottom: 8px; padding-left: 2px; }
+        .strength-label.weak   { color: #e50914; }
+        .strength-label.medium { color: #f0a500; }
+        .strength-label.strong { color: #28a745; }
+
+        .auth-alert {
+            border-radius: 8px; font-size: 13px; padding: 10px 14px;
+            margin-bottom: 14px; display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .auth-alert.error   { background: rgba(229,9,20,0.18); border: 1px solid rgba(229,9,20,0.5); color: #ff6b6b; }
+        .auth-alert.success { background: rgba(40,167,69,0.15); border: 1px solid rgba(40,167,69,0.4); color: #4caf82; }
+        .auth-alert.info    { background: rgba(13,110,253,0.15); border: 1px solid rgba(13,110,253,0.4); color: #6ea8fe; }
+        .auth-alert i { margin-right: 6px; }
+
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            20%      { transform: translateX(-8px); }
+            40%      { transform: translateX(8px); }
+            60%      { transform: translateX(-5px); }
+            80%      { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+        .auth-tab-btn {
+            flex: 1; background: none; border: none;
+            color: rgba(255,255,255,0.45); font-weight: 600; font-size: 15px;
+            padding: 10px 0; cursor: pointer; transition: 0.2s;
+            border-bottom: 2px solid transparent; margin-bottom: -1px;
+        }
+        .auth-tab-btn.active { color: #fff; border-bottom-color: #e50914; }
+        .modal-content { border-radius: 16px !important; }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg transparent" id="navbar">
+        <div class="container">
+            <a class="navbar-brand text-danger fw-bold" href="#">MAGNEMITE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="../ott_project_us_js/ott-html.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">TV Series</a></li>
+                    <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../ott_project_us_js/Trending.html">Trending</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    <!-- Entirely JS-controlled; shows Sign In OR profile+signout -->
+                    <li class="nav-item ms-lg-3" id="auth-area">
+                        <button class="btn btn-danger btn-sm fw-bold px-3" onclick="openAuthModal()">Sign In</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="../ott_project_us_js/movie.mp4" type="video/mp4">
+        </video>
+        <div class="content">
+            <h1 class="title">JURASSIC WORLD</h1>
+            <div class="info">
+                <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span>8.3 (IMDb)</span>
+                <span class="age">16+</span>
+                <span>2h 21min</span>
+            </div>
+            <p class="desc">
+                Jurassic World: Dominion takes place four years after dinosaurs spread across the world.<br>Owen and
+                Claire set out to rescue Maisie Lockwood and Blue's baby raptor, Beta, who have been kidnapped.
+                Meanwhile, BioSyn is conducting dangerous experiments,<br>threatening the balance of nature.
+            </p>
+            <p><span class="highlight">Starring:</span> Chris Pratt, BD Wong, Isabella Sermon</p>
+            <p><span class="highlight">Genres:</span> Action</p>
+            <p><span class="highlight">Tag:</span> Action, Adventure, Sci-Fi</p>
+            <div class="buttons">
+                <a href="../ott_project_us_js/movie.html">
+                    <button class="play"><i class="fa-solid fa-play"></i>&nbsp; PLAY NOW</button>
+                </a>
+                <button class="details">More details</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <h2 class="carousel-title">Featured Movies</h2>
+        <button class="nav-arrow nav-left">&#10094;</button>
+        <button class="nav-arrow nav-right">&#10095;</button>
+        <div class="movie-carousel">
+            <div class="movie-item"><img src="../ott_project_us_js/img2/img/1.jpeg" alt="Movie 1"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/avatar.jpg" alt="Movie 2"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/10.jpg" alt="Movie 3"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/11.jpg" alt="Movie 4"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/12.jpg" alt="Movie 5"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/9.jpg"  alt="Movie 6"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/8.jpg"  alt="Movie 7"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/13.jpg" alt="Movie 8"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/7.jpg"  alt="Movie 9"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/15.jpg" alt="Movie 10"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <h2 class="carousel-title">TV Series</h2>
+        <button class="nav-arrow nav-left">&#10094;</button>
+        <button class="nav-arrow nav-right">&#10095;</button>
+        <div class="movie-carousel">
+            <div class="movie-item"><img src="./img2/bat.jpg"    alt="Series 1"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/inter.webp" alt="Series 2"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/open.jpeg"  alt="Series 3"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/topgun.webp" alt="Series 4"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/dune.jpeg"  alt="Series 5"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/16.jpg" alt="Series 6"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/17.jpg" alt="Series 7"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/18.jpg" alt="Series 8"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/19.jpg" alt="Series 9"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/2.jpeg" alt="Series 10"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <h2 class="carousel-title">New Releases</h2>
+        <button class="nav-arrow nav-left">&#10094;</button>
+        <button class="nav-arrow nav-right">&#10095;</button>
+        <div class="movie-carousel">
+            <div class="movie-item"><img src="./img2/bugonia.jpg"       alt="New 1"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/dracula.jpeg"      alt="New 2"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/f1.jpeg"           alt="New 3"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/fantastic4.jpeg"   alt="New 4"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/frankenstein.jpeg" alt="New 5"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/3.jpg"         alt="New 6"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/4.jpg"         alt="New 7"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/5.jpg"         alt="New 8"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/6.jpg"         alt="New 9"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+            <div class="movie-item"><img src="./img2/img/john.jpg"      alt="New 10"><div class="movie-info"><h3 class="movie-title">Title</h3><p class="movie-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p></div></div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-body p-4">
+
+                    <div class="auth-tabs">
+                        <button class="auth-tab-btn active" id="tab-login"  onclick="switchTab('login')">Sign In</button>
+                        <button class="auth-tab-btn"        id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+                    </div>
+
+                    <div class="auth-alert" id="authAlert"></div>
+
+                    <!-- LOGIN -->
+                    <div id="loginSection">
+                        <div class="auth-input-wrap">
+                            <input type="email" id="loginEmail" class="form-control bg-secondary text-white border-0"
+                                placeholder="Email address" oninput="liveValidateLoginEmail(this)">
+                            <span class="input-icon" id="loginEmailIcon"></span>
+                        </div>
+                        <div class="field-msg" id="loginEmailMsg"></div>
+
+                        <div class="auth-input-wrap">
+                            <input type="password" id="loginPassword" class="form-control bg-secondary text-white border-0"
+                                placeholder="Password" oninput="liveValidateLoginPassword(this)">
+                            <span class="input-icon" id="loginPasswordIcon"></span>
+                        </div>
+                        <div class="field-msg" id="loginPasswordMsg"></div>
+
+                        <button class="btn btn-danger w-100 fw-bold mt-2" onclick="handleLogin()">Sign In</button>
+                        <p class="mt-3 small text-center">
+                            New to Magnemite?
+                            <a href="javascript:void(0)" class="text-white fw-bold" onclick="switchTab('signup')">Sign up now.</a>
+                        </p>
+                    </div>
+
+                    <!-- SIGNUP -->
+                    <div id="signupSection" style="display:none;">
+                        <div class="auth-input-wrap">
+                            <input type="text" id="signupName" class="form-control bg-secondary text-white border-0"
+                                placeholder="Full Name" oninput="liveValidateName(this)">
+                            <span class="input-icon" id="signupNameIcon"></span>
+                        </div>
+                        <div class="field-msg" id="signupNameMsg"></div>
+
+                        <div class="auth-input-wrap">
+                            <input type="email" id="signupEmail" class="form-control bg-secondary text-white border-0"
+                                placeholder="Email address" oninput="liveValidateSignupEmail(this)">
+                            <span class="input-icon" id="signupEmailIcon"></span>
+                        </div>
+                        <div class="field-msg" id="signupEmailMsg"></div>
+
+                        <div class="auth-input-wrap">
+                            <input type="password" id="signupPassword" class="form-control bg-secondary text-white border-0"
+                                placeholder="Create Password" oninput="liveValidateSignupPassword(this)">
+                            <span class="input-icon" id="signupPasswordIcon"></span>
+                        </div>
+                        <div class="strength-bar-wrap">
+                            <span id="bar1"></span><span id="bar2"></span><span id="bar3"></span><span id="bar4"></span>
+                        </div>
+                        <div class="strength-label" id="strengthLabel"></div>
+                        <div class="field-msg" id="signupPasswordMsg"></div>
+
+                        <div class="auth-input-wrap">
+                            <input type="password" id="signupConfirm" class="form-control bg-secondary text-white border-0"
+                                placeholder="Confirm Password" oninput="liveValidateConfirm(this)">
+                            <span class="input-icon" id="signupConfirmIcon"></span>
+                        </div>
+                        <div class="field-msg" id="signupConfirmMsg"></div>
+
+                        <button class="btn btn-danger w-100 fw-bold mt-1" onclick="handleSignup()">Get Started</button>
+                        <p class="mt-3 small text-center">
+                            Already have an account?
+                            <a href="javascript:void(0)" class="text-white fw-bold" onclick="switchTab('login')">Sign in.</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="foot">
+            <div class="row foot-1">
+                <div class="col-md-3">
+                    <h5>About Us</h5>
+                    <span>Your ultimate destination for premium entertainment. We bring you a diverse range of movies, TV shows, and exclusive content.</span>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <div class="cont-act">
+                        <div class="c1 c"><p>via &#9742; :</p><span>91+ 8976543210</span></div>
+                        <div class="c2 c"><p>via &#9993; :</p><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e38e82848d868e8a9786a3848e828a8fcd808c8e">[email&#160;protected]</a></span></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Social Media</h5>
+                    <ul class="social-icons">
+                        <li><a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.facebook.com"  target="_blank"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="https://www.twitter.com"   target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.linkedin.com"  target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Partners</h5>
+                    <span>Akamai</span><br><span>Brightcove</span><br><span>Dolby</span>
+                </div>
+            </div>
+            <div class="row foot-2 text-center">
+                <div class="col-md-12"><p>&#169; 2025 Magnemite | All rights reserved.</p></div>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="../ott_project_us_js/ott.js"></script>
+
+    <script>
+    /* ══════════════════════════════════════════════════════════════
+       MAGNEMITE  –  Persistent Auth System
+       Storage keys:
+         mg_accounts  → array of { name, email, password }
+         mg_session   → { name, email }  (localStorage = survives restarts)
+    ══════════════════════════════════════════════════════════════ */
+
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const NAME_RE  = /^[A-Za-z\s]{2,40}$/;
+
+    /* ── Account store ── */
+    function getAccounts() {
+        try { return JSON.parse(localStorage.getItem('mg_accounts') || '[]'); } catch(e) { return []; }
+    }
+    function saveAccounts(arr) { localStorage.setItem('mg_accounts', JSON.stringify(arr)); }
+    function findAccount(email) {
+        return getAccounts().find(a => a.email.toLowerCase() === email.trim().toLowerCase());
+    }
+
+    /* ── Session (localStorage so it persists across tabs & browser restarts) ── */
+    function getSession() {
+        try { return JSON.parse(localStorage.getItem('mg_session') || 'null'); } catch(e) { return null; }
+    }
+    function saveSession(name, email) {
+        localStorage.setItem('mg_session', JSON.stringify({ name, email }));
+        sessionStorage.setItem('userName',  name);   // profile.html compatibility
+        sessionStorage.setItem('userEmail', email);
+    }
+    function clearSession() {
+        localStorage.removeItem('mg_session');
+        sessionStorage.clear();
+    }
+
+    /* ── Password strength ── */
+    function passwordStrength(pw) {
+        let s = 0;
+        if (pw.length >= 8)           s++;
+        if (/[A-Z]/.test(pw))         s++;
+        if (/[0-9]/.test(pw))         s++;
+        if (/[^A-Za-z0-9]/.test(pw))  s++;
+        return s;
+    }
+
+    /* ── UI helpers ── */
+    function setField(iconId, msgId, state, msg) {
+        const icon = document.getElementById(iconId);
+        const msgEl = document.getElementById(msgId);
+        if (!icon || !msgEl) return;
+        icon.className = 'input-icon ' + (
+            state === 'ok'  ? 'valid fa-solid fa-check' :
+            state === 'err' ? 'invalid fa-solid fa-circle-exclamation' : ''
+        );
+        msgEl.className   = 'field-msg ' + (state === 'ok' ? 'success' : state === 'err' ? 'error' : '');
+        msgEl.textContent = msg || '';
+    }
+    function showAlert(type, html) {
+        const el = document.getElementById('authAlert');
+        el.className     = 'auth-alert ' + type;
+        el.innerHTML     = html;
+        el.style.display = 'block';
+    }
+    function hideAlert() {
+        const el = document.getElementById('authAlert');
+        if (el) el.style.display = 'none';
+    }
+    function shakeModal() {
+        const el = document.querySelector('#authModal .modal-content');
+        el.classList.remove('shake');
+        void el.offsetWidth;
+        el.classList.add('shake');
+        setTimeout(() => el.classList.remove('shake'), 450);
+    }
+
+    /* ── Tab switcher ── */
+    function switchTab(tab) {
+        hideAlert(); clearLoginFields(); clearSignupFields();
+        const isLogin = tab === 'login';
+        document.getElementById('loginSection').style.display  = isLogin ? 'block' : 'none';
+        document.getElementById('signupSection').style.display = isLogin ? 'none'  : 'block';
+        document.getElementById('tab-login').classList.toggle('active',  isLogin);
+        document.getElementById('tab-signup').classList.toggle('active', !isLogin);
+    }
+    function clearLoginFields() {
+        ['loginEmail','loginPassword'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+        setField('loginEmailIcon','loginEmailMsg','','');
+        setField('loginPasswordIcon','loginPasswordMsg','','');
+    }
+    function clearSignupFields() {
+        ['signupName','signupEmail','signupPassword','signupConfirm'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.value = '';
+            setField(id+'Icon', id+'Msg', '', '');
+        });
+        updateStrengthBar('');
+    }
+
+    /* ══ openAuthModal — ONLY opens if NOT logged in ══ */
+    function openAuthModal() {
+        if (getSession()) {
+            return; // already logged in — do nothing, button is hidden anyway
+        }
+        switchTab('login');
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('authModal')).show();
+    }
+
+    /* ══ Navbar: swap Sign In button for profile + sign-out ══ */
+    function updateNavForLoggedIn(name) {
+        const area = document.getElementById('auth-area');
+        if (!area) return;
+        area.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+                <a href="profile.html" class="btn btn-outline-light btn-sm fw-bold px-3">
+                    <i class="fa-solid fa-user me-1"></i>${name.split(' ')[0]}
+                </a>
+                <button class="btn btn-danger btn-sm fw-bold px-3" onclick="handleSignOut()">Sign Out</button>
+            </div>`;
+    }
+    function handleSignOut() {
+        if (confirm('Are you sure you want to sign out?')) {
+            clearSession();
+            location.reload();
+        }
+    }
+
+    /* ══ Live Validation: LOGIN ══ */
+    function liveValidateLoginEmail(input) {
+        hideAlert();
+        const v = input.value.trim();
+        if (!v) { setField('loginEmailIcon','loginEmailMsg','',''); return; }
+        setField('loginEmailIcon','loginEmailMsg', EMAIL_RE.test(v) ? 'ok' : 'err', EMAIL_RE.test(v) ? '' : 'Enter a valid email address.');
+    }
+    function liveValidateLoginPassword(input) {
+        hideAlert();
+        const v = input.value;
+        if (!v) { setField('loginPasswordIcon','loginPasswordMsg','',''); return; }
+        setField('loginPasswordIcon','loginPasswordMsg', v.length >= 6 ? 'ok' : 'err', v.length >= 6 ? '' : 'Minimum 6 characters.');
+    }
+
+    /* ══ Live Validation: SIGNUP ══ */
+    function liveValidateName(input) {
+        hideAlert();
+        const v = input.value.trim();
+        if (!v) { setField('signupNameIcon','signupNameMsg','',''); return; }
+        if (v.length < 2)       return setField('signupNameIcon','signupNameMsg','err','At least 2 characters required.');
+        if (!NAME_RE.test(v))   return setField('signupNameIcon','signupNameMsg','err','Letters and spaces only.');
+        setField('signupNameIcon','signupNameMsg','ok','Looks good!');
+    }
+    function liveValidateSignupEmail(input) {
+        hideAlert();
+        const v = input.value.trim();
+        if (!v) { setField('signupEmailIcon','signupEmailMsg','',''); return; }
+        if (!EMAIL_RE.test(v)) return setField('signupEmailIcon','signupEmailMsg','err','Enter a valid email address.');
+        if (findAccount(v)) {
+            setField('signupEmailIcon','signupEmailMsg','err','This email already has an account.');
+            showAlert('info',
+                '<i class="fa-solid fa-circle-info"></i> An account with this email already exists. ' +
+                '<a href="javascript:void(0)" class="fw-bold text-white" onclick="switchTab(\'login\')">Sign in instead &#8594;</a>');
+            return;
+        }
+        setField('signupEmailIcon','signupEmailMsg','ok','Email is available!');
+    }
+    function liveValidateSignupPassword(input) {
+        hideAlert();
+        const v = input.value;
+        updateStrengthBar(v);
+        if (!v) { setField('signupPasswordIcon','signupPasswordMsg','',''); return; }
+        if (v.length < 8)              return setField('signupPasswordIcon','signupPasswordMsg','err','Minimum 8 characters required.');
+        if (passwordStrength(v) < 2)   return setField('signupPasswordIcon','signupPasswordMsg','err','Add uppercase letters or numbers.');
+        setField('signupPasswordIcon','signupPasswordMsg','ok','');
+        const c = document.getElementById('signupConfirm'); if (c && c.value) liveValidateConfirm(c);
+    }
+    function liveValidateConfirm(input) {
+        const pw = document.getElementById('signupPassword').value;
+        const v  = input.value;
+        if (!v) { setField('signupConfirmIcon','signupConfirmMsg','',''); return; }
+        setField('signupConfirmIcon','signupConfirmMsg', v === pw ? 'ok' : 'err', v === pw ? 'Passwords match!' : 'Passwords do not match.');
+    }
+    function updateStrengthBar(pw) {
+        const bars  = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+        const label = document.getElementById('strengthLabel');
+        if (!bars[0] || !label) return;
+        bars.forEach(b => { if (b) b.className = ''; });
+        if (!pw) { label.textContent = ''; return; }
+        const score = passwordStrength(pw);
+        const cls   = score <= 1 ? 'weak' : score <= 3 ? 'medium' : 'strong';
+        const text  = ['','Weak password','Fair password','Good password','Strong password &#10003;'][score] || 'Strong password';
+        for (let i = 0; i < score; i++) { if (bars[i]) bars[i].className = cls; }
+        label.innerHTML = text;
+        label.className = 'strength-label ' + cls;
+    }
+
+    /* ══ Handle LOGIN ══ */
+    function handleLogin() {
+        hideAlert();
+        const email = document.getElementById('loginEmail').value.trim();
+        const pass  = document.getElementById('loginPassword').value;
+        let valid   = true;
+
+        if (!email)                    { setField('loginEmailIcon','loginEmailMsg','err','Email is required.'); valid = false; }
+        else if (!EMAIL_RE.test(email)){ setField('loginEmailIcon','loginEmailMsg','err','Enter a valid email address.'); valid = false; }
+        if (!pass)                     { setField('loginPasswordIcon','loginPasswordMsg','err','Password is required.'); valid = false; }
+        else if (pass.length < 6)      { setField('loginPasswordIcon','loginPasswordMsg','err','Minimum 6 characters.'); valid = false; }
+        if (!valid) { shakeModal(); return; }
+
+        const account = findAccount(email);
+        if (!account) {
+            shakeModal();
+            showAlert('error',
+                '<i class="fa-solid fa-triangle-exclamation"></i> No account found with this email. ' +
+                '<a href="javascript:void(0)" class="fw-bold text-white" onclick="switchTab(\'signup\')">Sign up now &#8594;</a>');
+            setField('loginEmailIcon','loginEmailMsg','err','No account found.');
+            return;
+        }
+        if (account.password !== pass) {
+            shakeModal();
+            showAlert('error','<i class="fa-solid fa-triangle-exclamation"></i> Incorrect password. Please try again.');
+            setField('loginPasswordIcon','loginPasswordMsg','err','Incorrect password.');
+            return;
+        }
+
+        /* Success */
+        saveSession(account.name, account.email);
+        showAlert('success','<i class="fa-solid fa-circle-check"></i> Welcome back, ' + account.name + '!');
+        setTimeout(() => {
+            bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
+            updateNavForLoggedIn(account.name);
+        }, 1200);
+    }
+
+    /* ══ Handle SIGNUP ══ */
+    function handleSignup() {
+        hideAlert();
+        const name    = document.getElementById('signupName').value.trim();
+        const email   = document.getElementById('signupEmail').value.trim();
+        const pass    = document.getElementById('signupPassword').value;
+        const confirm = document.getElementById('signupConfirm').value;
+        let valid     = true;
+
+        if (!name)                    { setField('signupNameIcon','signupNameMsg','err','Full name is required.'); valid = false; }
+        else if (name.length < 2)     { setField('signupNameIcon','signupNameMsg','err','At least 2 characters.'); valid = false; }
+        else if (!NAME_RE.test(name)) { setField('signupNameIcon','signupNameMsg','err','Letters and spaces only.'); valid = false; }
+
+        if (!email)                    { setField('signupEmailIcon','signupEmailMsg','err','Email is required.'); valid = false; }
+        else if (!EMAIL_RE.test(email)){ setField('signupEmailIcon','signupEmailMsg','err','Enter a valid email address.'); valid = false; }
+        else if (findAccount(email))   {
+            setField('signupEmailIcon','signupEmailMsg','err','This email already has an account.');
+            showAlert('info',
+                '<i class="fa-solid fa-circle-info"></i> An account with this email already exists. ' +
+                '<a href="javascript:void(0)" class="fw-bold text-white" onclick="switchTab(\'login\')">Sign in instead &#8594;</a>');
+            valid = false;
+        }
+
+        if (!pass)                       { setField('signupPasswordIcon','signupPasswordMsg','err','Password is required.'); valid = false; }
+        else if (pass.length < 8)        { setField('signupPasswordIcon','signupPasswordMsg','err','Minimum 8 characters.'); valid = false; }
+        else if (passwordStrength(pass)<2){ setField('signupPasswordIcon','signupPasswordMsg','err','Password too weak.'); valid = false; }
+
+        if (!confirm)              { setField('signupConfirmIcon','signupConfirmMsg','err','Please confirm your password.'); valid = false; }
+        else if (confirm !== pass) { setField('signupConfirmIcon','signupConfirmMsg','err','Passwords do not match.'); valid = false; }
+
+        if (!valid) { shakeModal(); return; }
+
+        /* Save account + create session */
+        const accounts = getAccounts();
+        accounts.push({ name, email, password: pass });
+        saveAccounts(accounts);
+        saveSession(name, email);
+
+        showAlert('success','<i class="fa-solid fa-circle-check"></i> Account created! Welcome, ' + name + '!');
+        setTimeout(() => {
+            bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
+            updateNavForLoggedIn(name);
+        }, 1200);
+    }
+
+    /* ══ PAGE LOAD: restore session instantly ══ */
+    document.addEventListener('DOMContentLoaded', function () {
+        const session = getSession();
+
+        if (session) {
+            updateNavForLoggedIn(session.name);
+            sessionStorage.setItem('userName',  session.name);
+            sessionStorage.setItem('userEmail', session.email);
+        }
+
+        /* Silently block modal if logged in — NO redirect, NO page navigation */
+        document.getElementById('authModal').addEventListener('show.bs.modal', function (e) {
+            if (getSession()) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            } else {
+                switchTab('login');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

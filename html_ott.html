@@ -1,0 +1,571 @@
+<!--<html>
+    <head>
+        <title>watch movie here</title>
+        <link rel="icon" href="C:\Users\vaish\Desktop\webtechnology\front end\images\apple.jpg">
+        <link rel="stylesheet" href="ott_css.css">
+        <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Sen:wght@400;700;800&display=swap"
+        rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <style>
+        .main-container{
+            margin: 0px;
+        }
+        .horx-nav{
+            height: 8%;
+            width:100%;
+            background-color: black;
+            position: fixed;
+            display: flex;
+        }
+        .horx-nav img{
+            height: 100%;
+            width:15%;
+            background-color: aliceblue;
+            
+        }
+        .menu-bar-list{
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .menu-list-item{
+            color:white;
+            font-weight: bold;
+            font-style:italic;
+            font-size: large;
+        }
+        .bod{
+            height:auto;
+            width:100%;
+        }
+        .ver-nav{
+            height:100%;
+            width:5%;
+            position:fixed;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .ver-nav .d{
+            height:10%;
+            width:100%;
+            font-size: 20px;
+           
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           margin-top: 5px;
+        }
+        .ver-bod{
+            width:95%;
+            background-color: rgb(203, 149, 84);
+        }
+        .car-container{
+            margin-top: 4%;
+        }
+        .carousel-item img{
+            height:100%;
+            width:100%;
+        }
+        
+    </style>
+    <body>
+        <div class="main-container">
+            <div class="horx-nav">
+                <img src="" alt="">
+                <u1 class="menu-bar-list">
+                    <li class="menu-list-item">Home</li>
+                    <li class="menu-list-item">Movies</li>
+                    <li class="menu-list-item">series</li>
+                    <li class="menu-list-item">Anime</li>
+                </u1>
+            </div>
+            <div class="bod">
+                <div class="ver-nav" style="float:left">
+                    <div class="d1 d"><i class="fa-solid fa-magnifying-glass" style="color: #ffffffb7;"></i></div>
+                    <div class="d2 d"><i class="fa-solid fa-house" style="color: #ffffffb7;"></i></div>
+                    <div class="d3 d"><i class="fa-solid fa-users" style="color: #ffffffb7;"></i></div>
+                    <div class="d4 d"><i class="fa-solid fa-bookmark" style="color: #ffffffb7;"></i></div>
+                    <div class="d5 d"><i class="fa-solid fa-desktop" style="color: #ffffffb7;"></i></div>
+                    <div class="d6 d"><i class="fa-solid fa-hourglass-start" style="color: #ffffffb7;"></i></div>
+                    <div class="d7 d"><i class="fa-solid fa-cart-shopping" style="color: #ffffffb7;"></i></div>
+                </div>
+                <div class="ver-bod" style="float:right">
+                    <div class="bod-container">
+                        <div class="car-container">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                  <div class="carousel-item active">
+                                    <img src="../ott_project_js/imgs/chhaava-cover-2.jpg" class="d-block w-100" alt="...">
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="../ott_project_js/imgs/mufasa-cover.avif" class="d-block w-100" alt="...">
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="../ott_project_js/imgs/mrs-cover.webp" class="d-block w-100" alt="...">
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="../ott_project_js/imgs/‘Dragon-Movie-cover.webp" class="d-block w-100" alt="...">
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="../ott_project_js/imgs/shaitaan-cover.jpg" class="d-block w-100" alt="...">
+                                  </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                  <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                  <span class="visually-hidden">Next</span>
+                                </button>
+                              </div>
+                        </div>
+                        <div class="cat-container">
+                            <div class="new-rel-container">
+                                <div class="h1">
+                                    <h1>New Releases</h1>
+                                </div>
+                                <div class="new_rel-imgs">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch Movie Here</title>
+  <link rel="icon" href="images/apple.jpg">
+  <link rel="stylesheet" href="ott_css.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Sen:wght@400;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .main-container {
+      margin: 0px;
+    }
+
+    .horx-nav {
+      height: 8%;
+      width: 100%;
+      background-color: black;
+      position: fixed;
+      display: flex;
+    }
+
+    .horx-nav img {
+      height: 100%;
+      width: 15%;
+      background-color: aliceblue;
+    }
+
+    .menu-bar-list {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .menu-list-item {
+      color: white;
+      font-weight: bold;
+      font-style: italic;
+      font-size: large;
+    }
+
+    .bod {
+      height: auto;
+      width: 100%;
+    }
+
+    .ver-nav {
+      height: 100%;
+      width: 5%;
+      position: fixed;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ver-nav .d {
+      height: 10%;
+      width: 100%;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .ver-bod {
+      width: 95%;
+      background-color: rgb(203, 149, 84);
+    }
+
+    .car-container {
+      margin-top: 4%;
+      width: 100%;
+      z-index: 0;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 700px;
+      object-fit: cover;
+      transition: .5s ease;
+    }
+
+    .carousel-item .hover-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      background-color: rgba(0, 0, 0, 0.234);
+      padding: 10px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .carousel-item:hover img {
+      opacity: 0.5;
+    }
+
+    .carousel-item:hover .hover-text {
+      opacity: 1;
+    }
+
+    .hover-text .rating {
+
+      font-size: 20px;
+      color: gold;
+      border-radius: 5px;
+    }
+
+    body,
+    html,
+    .main-container {
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .bod-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .new-rel-container {
+      padding: 20px;
+    }
+
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 1400px;
+      /* Adjust the max width as needed */
+      margin: auto;
+      display: flex;
+    }
+
+   
+
+    .movie {
+      position:relative;
+      margin:10px;
+      flex-shrink: 0;
+    }
+
+    .movie img {
+      
+      height:100px;
+      width:300px;
+      display: block;
+      object-fit: cover;
+      transition: opacity 0.5s ease;
+    }
+    .movie:hover img{
+      transform: scale(1.1);
+    }
+    .hover-text1{
+      position:absolute;
+      bottom:0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.7);
+      color: whitesmoke;
+      font-size: 14px;
+      padding: 5px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .movie:hover .hover-text1{
+      opacity: 1;
+    }
+
+.rating1 {
+    margin-top: 10px;
+}
+
+.rating1 i {
+    color: gold;
+}
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .carousel-button-prev {
+      left: 10px;
+    }
+
+    .carousel-button-next {
+      right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-container">
+    <div class="horx-nav">
+      <img src="" alt="">
+      <ul class="menu-bar-list">
+        <li class="menu-list-item">Home</li>
+        <li class="menu-list-item">Movies</li>
+        <li class="menu-list-item">Series</li>
+        <li class="menu-list-item">Anime</li>
+      </ul>
+    </div>
+    <div class="bod">
+      <div class="ver-nav" style="float:left;">
+        <div class="d1 d"><i class="fa-solid fa-magnifying-glass" style="color: #ffffffb7;"></i></div>
+        <div class="d2 d"><i class="fa-solid fa-house" style="color: #ffffffb7;"></i></div>
+        <div class="d3 d"><i class="fa-solid fa-users" style="color: #ffffffb7;"></i></div>
+        <div class="d4 d"><i class="fa-solid fa-bookmark" style="color: #ffffffb7;"></i></div>
+        <div class="d5 d"><i class="fa-solid fa-desktop" style="color: #ffffffb7;"></i></div>
+        <div class="d6 d"><i class="fa-solid fa-hourglass-start" style="color: #ffffffb7;"></i></div>
+        <div class="d7 d"><i class="fa-solid fa-cart-shopping" style="color: #ffffffb7;"></i></div>
+      </div>
+      <div class="ver-bod" style="float:right">
+        <div class="bod-container">
+          <div class="car-container">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="img-wrapper">
+                    <img style="height: 700px;" src="../ott_project_js/imgs/‘Dragon-Movie-cover.webp"
+                      class="d-block w-100" alt="...">
+                    <div class="hover-text">Dragon Movie</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="img-wrapper">
+                    <img src="../ott_project_js/imgs/mufasa-cover.avif" class="d-block w-100" alt="...">
+                    <div class="hover-text">
+                      <h4>MUFASA</h4>
+                      <p>Mufasa, a cub lost and alone, meets a sympathetic lion named Taka, the heir to a royal
+                        bloodline. The chance meeting sets in motion an expansive journey of a group of misfits
+                        searching for their destiny.</p>
+                      <p style="font-weight: bold;">Genre:</p>
+                      <div class="" style="display: flex;gap:5px;">
+                        <div class="hov-txt"
+                          style="border:1px solid white; height:30px;width:100px;border-radius: 25%;text-align: center;">
+                          Adventure</div>
+                        <div class="hov-txt"
+                          style="border:1px solid white; height:30px;width:100px;border-radius: 25%;text-align: center;">
+                          Drama</div>
+                        <div class="hov-txt"
+                          style="border:1px solid white; height:30px;width:100px;border-radius: 25%;text-align: center;">
+                          Family</div>
+                      </div><br>
+                      <p style="font-weight: bold;">Rating:</p>
+                      <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="img-wrapper">
+                    <img src="../ott_project_js/imgs/shaitaan-cover.jpg" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span> </button>
+            </div>
+          </div>
+          <div class="cat-container">
+            <div class="new-rel-container">
+              <div class="h1">
+                <h1>New Releases</h1>
+              </div>
+              <div class="carousel-container">
+                <button class="carousel-button carousel-button-prev" id="prevButton">&#10094;</button>
+                
+                  <div class="movie">
+                    <!--<img class="imz" src="../ott_project_js/imgs/‘Dragon-Movie-cover.webp" alt="Dragon Movie">-->
+                    <div class="hover-text1">
+                      <P>Mufasa</P>
+                      <div class="rating1">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="movie">
+                    <img class="imz" src="../ott_project_js/imgs/mufasa-cover.avif" alt="Mufasa">
+                    <div class="hover-text1">Mufasa
+                      <div class="rating1">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="movie">
+                    <img class="imz" src="../ott_project_js/imgs/‘Dragon-Movie-cover.webp" alt="Dragon Movie">
+                    <div class="hover-text1">Mufasa
+                      <div class="rating1">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="movie">
+                    <img class="imz" src="../ott_project_js/imgs/mufasa-cover.avif" alt="Mufasa">
+                    <div class="hover-text1">Mufasa
+                      <div class="rating1">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="movie">
+                    <img class="imz" src="../ott_project_js/imgs/‘Dragon-Movie-cover.webp" alt="Dragon Movie">
+                    <div class="hover-text1">Mufasa
+                      <div class="rating1">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="movie">
+                    <img class="imz" src="../ott_project_js/imgs/mufasa-cover.avif" alt="Mufasa">
+                    <div class="hover-text1">Mufasa
+                      <div class="rating1">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                      </div>
+                    </div>
+                  </div>
+                
+                
+                <button class="carousel-button carousel-button-next" id="nextButton">&#10095;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+ <script>
+    const moviecontainer = document.getElementsByClassName('.carousel-container')[0];
+    const leftarrow = document.querySelector('.carousel-button-prev');
+    const rightarrow= document.querySelector('.carousel-button-next');
+    //scroll left
+    leftarrow.addEventListener('click', ()=>{
+      moviecontainer.scrollBy({
+        left:-200,
+        behaviour :'smooth'
+      });
+    });
+    //scrollright
+    rightarrow.addEventListener('click',()=>{
+      moviecontainer.scrollBy({
+        left:200,
+        behaviour:'smooth'
+      });
+    });
+  </script>
+</body>
+
+</html>

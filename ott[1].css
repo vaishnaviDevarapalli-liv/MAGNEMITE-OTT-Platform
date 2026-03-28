@@ -1,0 +1,392 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+.navbar.transparent {
+  background-color: transparent;
+}
+.navbar.solid {
+  background-color: black;
+}
+.navbar .container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.navbar-nav {
+  margin-right: 20px;
+}
+.nav-item {
+  margin-right: 15px;
+  position: relative;
+}
+.nav-link {
+  color: white;
+  transition: color 0.3s ease;
+}
+.nav-link:hover {
+  color: red;
+}
+.nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: red;
+  transition: width 0.3s ease;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: absolute;
+  top: 60%;
+  left: 7%;
+  transform: translateY(-50%);
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  color: white;
+}
+
+.video-container:hover .content {
+  opacity: 1;
+}
+
+.info span {
+  margin-right: 10px;
+}
+
+.stars {
+  color: red;
+  font-weight: bold;
+}
+
+.age {
+  background-color: grey;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.highlight {
+  color: red;
+  font-weight: bold;
+}
+
+.desc {
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.buttons {
+  margin-top: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  color: white;
+}
+
+.play {
+  background-color: red;
+  color: white;
+}
+
+.details {
+  background-color: grey;
+  color: white;
+}
+
+.play:hover {
+  background-color: darkred;
+}
+
+.details:hover {
+  background-color: black;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.movie-carousel {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  scroll-behavior: smooth;
+  gap: 20px;
+  white-space: nowrap;
+
+  /* Hide scrollbar */
+  scrollbar-width: none; /* For Firefox */
+}
+
+
+.movie-item {
+  min-width: 180px;
+  flex-shrink: 0;
+}
+
+.movie-item img {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  display: block;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 10;
+  border: none;
+}
+
+.nav-arrow:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+.nav-left {
+  left: 20px;
+}
+
+.nav-right {
+  right: 20px;
+}
+
+.carousel-title {
+  font-size: 28px;
+  margin-bottom: 15px;
+  padding: 0 60px;
+  font-weight: normal;
+}
+
+.movie-item {
+  position: relative;
+  display: inline-block;
+  overflow: hidden; /* Ensures hover text stays inside */
+}
+
+.movie-item img {
+  width: 300px;
+  height:250px;
+  object-fit: cover;
+ object-position: center;
+}
+
+.movie-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Dark background */
+  color: white;
+  padding: 10px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+}
+
+.movie-item:hover .movie-info {
+  opacity: 1; /* Show info on hover */
+}
+
+.movie-title {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.movie-desc {
+  font-size: 0.9em;
+  margin-top: 5px;
+ width: fit-content;
+}
+.movie-card {
+    position: relative;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.movie-card:hover {
+    transform: scale(1.05);
+    z-index: 2;
+}
+.card-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.movie-card:hover .card-overlay {
+    opacity: 1;
+}
+.profile-circle {
+    width: 35px;
+    height: 35px;
+    background-color: #e50914; /* Netflix Red */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.profile-circle:hover {
+    transform: scale(1.1);
+}
+
+#auth-area .nav-link:hover {
+    color: white !important;
+}
+/* Page Load Fade-In */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+.foot-1{
+        margin-top: 50px;
+        margin-left: 50px;
+        margin-right: 10px;
+
+    }
+    .foot h5{
+        color: red;
+        font-style: italic;
+        font-weight: bold;
+        text-align: center;
+    }
+    .foot span{
+        font-size: small;
+        color: #a3a3a3;
+    }
+    .cont-act{
+        display:flex;
+        justify-content: space-around;
+    }
+    .c span{
+        font-size: small;
+        color: #a3a3a3;
+    }
+    .c span:hover {
+        color:red; 
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px; 
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .social-icons li {
+      display: inline-block;
+    }
+
+    .social-icons a {
+      text-decoration: none;
+      color: #a3a3a3; 
+      font-size: 24px; 
+    }
+
+    .social-icons a:hover {
+      color: rgb(244, 20, 20); 
+    }
+    .foot-2{
+        margin-top: 10px;
+    }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Red Glow Pulse for Play Button */
+.play {
+    animation: pulseRed 2s infinite;
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(229, 9, 20, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
+}
+/* Navigation Enhancements */
+.navbar {
+    transition: background-color 0.4s ease, padding 0.4s ease;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+}
+
+.navbar.solid {
+    background: #000 !important;
+    padding: 10px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.nav-link.active {
+    font-weight: 700;
+}
+
+/* Adjusting content so it doesn't hide under fixed navbar */
+body {
+    padding-top: 0;
+}

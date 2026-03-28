@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies - MAGNEMITE</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ott[1].css">
+    <style>
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .movie-hero {
+            height: 75vh;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 30%, transparent 100%),
+                url('./img2/open1.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            padding: 0 6%;
+            margin-bottom: 20px;
+        }
+
+        /* Carousel Layout */
+        .category-section {
+            position: relative;
+            margin-top: 40px;
+            padding: 0 4%;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .movie-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 15px;
+            padding: 20px 0;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .movie-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Chrome/Safari */
+
+        /* Movie Card Styling */
+        .movie-item {
+            min-width: 200px;
+            position: relative;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .movie-box {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .movie-item:hover .movie-box {
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+        }
+
+        .movie-box img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .movie-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, transparent);
+            opacity: 0;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .movie-item:hover .movie-overlay {
+            opacity: 1;
+        }
+
+        .rating-tag {
+            font-size: 0.75rem;
+            background: #e50914;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        /* Carousel Controls */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            z-index: 20;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(229, 9, 20, 0.8);
+        }
+
+        .prev-btn {
+            left: -20px;
+        }
+
+        .next-btn {
+            right: -20px;
+        }
+
+        .movie-card-anim {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+        .foot-1{
+        margin-top: 50px;
+        margin-left: 50px;
+        margin-right: 10px;
+
+    }
+    .foot h5{
+        color: red;
+        font-style: italic;
+        font-weight: bold;
+        text-align: center;
+    }
+    .foot span{
+        font-size: small;
+        color: #a3a3a3;
+    }
+    .cont-act{
+        display:flex;
+        justify-content: space-around;
+    }
+    .c span{
+        font-size: small;
+        color: #a3a3a3;
+    }
+    .c span:hover {
+        color:red; 
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px; 
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .social-icons li {
+      display: inline-block;
+    }
+
+    .social-icons a {
+      text-decoration: none;
+      color: #a3a3a3; 
+      font-size: 24px; 
+    }
+
+    .social-icons a:hover {
+      color: rgb(244, 20, 20); 
+    }
+    .foot-2{
+        margin-top: 10px;
+    }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg transparent fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand text-danger fw-bold" href="ott-html.html">MAGNEMITE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="ott-html.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">TV Series</a></li>
+                    <li class="nav-item"><a class="nav-link active text-danger" href="movies.html">Movies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Trending.html">Trending</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    <li class="nav-item" id="auth-area">
+                        <button class="btn btn-danger btn-sm fw-bold px-3" data-bs-toggle="modal"
+                            data-bs-target="#authModal">Sign In</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="movie-hero">
+        <div class="hero-content">
+            <h1 class="display-3 fw-bold">Oppenheimer</h1>
+            <p class="lead w-50 d-none d-md-block">The story of J. Robert Oppenheimer's role in the development of the
+                atomic bomb.</p>
+            <div class="mt-4">
+                <button class="btn btn-danger btn-lg me-2 fw-bold px-4">Play Now</button>
+                <button class="btn btn-outline-light btn-lg fw-bold px-4"
+                    onclick="addToWatchlist('Oppenheimer', './img2/open1.jpg')">
+                    <i class="fa-solid fa-plus me-2"></i> My List
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h5 class="fw-bold mb-1">Trending Now</h5>
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCarousel(this, -1)"><i
+                    class="fas fa-chevron-left"></i></button>
+            <div class="movie-carousel">
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/bat.jpg" alt="The Batman">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Batman', './img2/bat.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.8</span>
+                        <img src="./img2/dune.jpeg" alt="Dune">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Dune', './img2/dune.jpeg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.2</span>
+                        <img src="./img2/avatar.jpg" alt="Avatar">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Avatar', './img2/avatar.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.9</span>
+                        <img src="./img2/topgun.webp" alt="Top Gun">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Top Gun', './img2/topgun.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.1</span>
+                        <img src="./img2/mario.jpeg" alt="Mario">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Mario', './img2/mario.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">7.9</span>
+                        <img src="./img2/creed.jpg" alt="Creed III">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Creed III', './img2/creed.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/bat.jpg" alt="The Batman">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Batman', './img2/bat.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/bat.jpg" alt="The Batman">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Batman', './img2/bat.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/bat.jpg" alt="The Batman">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Batman', './img2/bat.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/bat.jpg" alt="The Batman">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Batman', './img2/bat.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/bat.jpg" alt="The Batman">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Batman', './img2/bat.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="nav-btn next-btn" onclick="scrollCarousel(this, 1)"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h5 class="fw-bold mb-1">Psychological Thrillers</h5>
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCarousel(this, -1)"><i
+                    class="fas fa-chevron-left"></i></button>
+            <div class="movie-carousel">
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.7</span>
+                        <img src="./img2/john.webp" alt="John Wick">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('John Wick', './img2/john.webp')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">9.0</span>
+                        <img src="./img2/inter.webp" alt="Interstellar">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Interstellar', './img2/inter.webp')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.6</span>
+                        <img src="./img2/se7en.jpg" alt="Se7en">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Se7en', './img2/se7en.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.5</span>
+                        <img src="./img2/shutterisland.jpeg" alt="Shutter Island">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Shutter Island', './img2/shutter.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.8</span>
+                        <img src="./img2/inception.jpg" alt="Inception">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Inception', './img2/inception.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.8</span>
+                        <img src="./img2/open.jpeg" alt="Open">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Open', './img2/open.jpeg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.8</span>
+                        <img src="./img2/peakyblinders.jpeg" alt="Peaky Blinders">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Peaky Blinders', './img2/peakyblinders.jpeg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.8</span>
+                        <img src="./img2/frankenstein.jpeg" alt="Frankenstein">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Frankenstein', './img2/frankenstein.jpeg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="nav-btn next-btn" onclick="scrollCarousel(this, 1)"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h5 class="fw-bold mb-1">Sci-Fi Favorites</h5>
+        <div class="carousel-wrapper">
+            <button class="nav-btn prev-btn" onclick="scrollCarousel(this, -1)"><i
+                    class="fas fa-chevron-left"></i></button>
+            <div class="movie-carousel">
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.1</span>
+                        <img src="./img2/tenent.jpeg" alt="Tenet">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Tenet', './img2/tenet.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.0</span>
+                        <img src="./img2/bladerunner.jpg" alt="Blade Runner">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Blade Runner', './img2/blade.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/arrival.jpg" alt="Arrival">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Arrival', './img2/arrival.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/inter.webp" alt="Interstellar">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Interstellar', './img2/inter.webp')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/thesubstance.jpeg" alt="The Substance">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('The Substance', './img2/thesubstance.jpeg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/oblivion.jpeg" alt="Oblivion">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Oblivion', './img2/oblivion.jpeg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/arrival.jpg" alt="Arrival">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Arrival', './img2/arrival.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/arrival.jpg" alt="Arrival">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Arrival', './img2/arrival.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-item movie-card-anim">
+                    <div class="movie-box">
+                        <span class="rating-tag">8.3</span>
+                        <img src="./img2/arrival.jpg" alt="Arrival">
+                        <div class="movie-overlay">
+                            <button class="btn btn-danger btn-sm w-100 mb-2">Watch Now</button>
+                            <button class="btn btn-outline-light btn-sm w-100"
+                                onclick="addToWatchlist('Arrival', './img2/arrival.jpg')"><i
+                                    class="fa-solid fa-plus me-1"></i> My List</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="nav-btn next-btn" onclick="scrollCarousel(this, 1)"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+ <footer>
+        <div class="foot">
+            <div class="row foot-1">
+                <div class="col-md-3">
+                    <h5>About Us</h5>
+                    <span>your ultimate destination for premium entertainment. We bring you a diverse range of movies, TV shows, and exclusive content, all tailored to suit your preferences. At Magnemite, we believe in delivering seamless streaming experiences, ensuring that you stay entertained anytime, anywhere. Join us and explore a world of stories that inspire, excite, and captivate.</span>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact Us</h5>
+                    <div class="cont-act">
+                        <div class="c1 c">
+                            <p>via &#9742; :</p> <span >91+ 8976543210</span><br>
+                        </div>
+                        <div class="c2 c">
+                            <p>via &#9993; :</p> <span>magnemite@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Social Media</h5>
+                    <div class="ic">
+                        <ul class="social-icons">
+                            <li><a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a></li>
+                            <li><a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+                          </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5>Partners</h5>
+                    <div class="c">
+                        <span>Akamai</span><br>
+                        <span>Brightcove</span><br>
+                        <span>Dolby</span>
+                    </div>
+                </div>
+            </div>  
+            <div class="row foot-2 text-center">
+                <div class="col-md-12">
+                    <p>
+                        © 2025 Magnemite | All rights reserved.
+                    </p>
+                </div>
+            </div>  
+        </div>
+    </footer>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener("scroll", function () {
+            var navbar = document.getElementById("navbar");
+            if (window.scrollY > 50) {
+                navbar.style.background = "rgba(0,0,0,0.95)";
+                navbar.classList.add("solid");
+                navbar.classList.remove("transparent");
+            } else {
+                navbar.style.background = "transparent";
+                navbar.classList.add("transparent");
+                navbar.classList.remove("solid");
+            }
+        });
+
+        // Carousel Scroll Logic
+        function scrollCarousel(btn, direction) {
+            const wrapper = btn.parentElement;
+            const carousel = wrapper.querySelector('.movie-carousel');
+            const scrollAmount = carousel.offsetWidth * 0.8;
+            carousel.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Add to Watchlist Logic
+        function addToWatchlist(title, imgSrc) {
+            let list = JSON.parse(localStorage.getItem('myWatchlist')) || [];
+            if (!list.find(m => m.title === title)) {
+                list.push({ title: title, image: imgSrc });
+                localStorage.setItem('myWatchlist', JSON.stringify(list));
+                alert(title + " added to your list!");
+            } else {
+                alert("Already in your list!");
+            }
+        }
+
+        // Profile sync
+        function syncProfile() {
+            const authArea = document.getElementById("auth-area");
+            const userName = sessionStorage.getItem("userName");
+            if (userName) {
+                authArea.innerHTML = `
+                    <a href="profile.html" class="nav-link d-flex align-items-center" style="padding: 0;">
+                         <span class="me-2 d-none d-lg-inline" style="font-size: 14px; color: white;">${userName}</span>
+                         <i class="fa-solid fa-circle-user fs-4 text-danger"></i>
+                    </a>
+                `;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", syncProfile);
+    </script>
+</body>
+
+</html>

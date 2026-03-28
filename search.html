@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search – MAGNEMITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        :root {
+            --red:    #e50914;
+            --red-dim:#8b0000;
+            --bg:     #080808;
+            --surface:#111111;
+            --card:   #161616;
+            --border: rgba(255,255,255,0.07);
+            --text:   #f0f0f0;
+            --muted:  #666;
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body:    'DM Sans', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Ambient background ── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 50% 0%, rgba(229,9,20,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 90% 80%, rgba(229,9,20,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(8,8,8,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 40px;
+            height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-brand {
+            font-family: var(--font-display);
+            font-size: 26px; letter-spacing: 2px;
+            color: var(--red); text-decoration: none;
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px; font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+            cursor: pointer; background: none; border: none;
+        }
+        .nav-back:hover { color: #fff; }
+        .nav-back i { font-size: 12px; }
+
+        /* ── Main layout ── */
+        .page-wrap {
+            position: relative; z-index: 1;
+            min-height: 100vh;
+            padding-top: 64px;
+        }
+
+        /* ── Hero search zone ── */
+        .search-hero {
+            padding: 72px 40px 48px;
+            text-align: center;
+            transition: padding 0.4s ease;
+        }
+        .search-hero.compact { padding: 32px 40px 24px; }
+
+        .search-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(42px, 7vw, 88px);
+            letter-spacing: 4px;
+            line-height: 1;
+            color: #fff;
+            margin-bottom: 8px;
+            animation: heroIn 0.6s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .search-hero h1 span { color: var(--red); }
+
+        .search-hero p {
+            color: var(--muted);
+            font-size: 15px;
+            margin-bottom: 36px;
+            animation: heroIn 0.6s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        @keyframes heroIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Search input ── */
+        .search-box-wrap {
+            max-width: 720px; margin: 0 auto;
+            position: relative;
+            animation: heroIn 0.6s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .search-box {
+            width: 100%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 60px 18px 56px;
+            font-family: var(--font-body);
+            font-size: 17px; font-weight: 400;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .search-box::placeholder { color: var(--muted); }
+        .search-box:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(229,9,20,0.12), 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .search-icon-left {
+            position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+            color: var(--muted); font-size: 17px; pointer-events: none;
+            transition: color 0.2s;
+        }
+        .search-box:focus ~ .search-icon-left,
+        .search-box-wrap:focus-within .search-icon-left { color: var(--red); }
+        .search-clear {
+            position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: var(--muted);
+            font-size: 16px; cursor: pointer; padding: 4px;
+            display: none; transition: color 0.2s;
+        }
+        .search-clear:hover { color: #fff; }
+        .search-clear.visible { display: block; }
+
+        /* ── Quick category pills ── */
+        .category-pills {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+            margin-top: 20px;
+            animation: heroIn 0.6s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .pill {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 12px; font-weight: 500;
+            color: rgba(255,255,255,0.55);
+            cursor: pointer; transition: all 0.2s;
+            user-select: none;
+        }
+        .pill:hover, .pill.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: #fff;
+        }
+
+        /* ── Results area ── */
+        .results-area {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 40px 60px;
+        }
+
+        /* ── Section headers ── */
+        .section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 22px; letter-spacing: 1.5px;
+            color: #fff;
+        }
+        .section-title span { color: var(--red); }
+        .section-action {
+            font-size: 12px; color: var(--muted);
+            cursor: pointer; background: none; border: none;
+            transition: color 0.2s; padding: 0;
+        }
+        .section-action:hover { color: var(--red); }
+
+        /* ── History list ── */
+        .history-list { display: flex; flex-direction: column; gap: 4px; }
+        .history-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 11px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            animation: slideIn 0.25s ease both;
+        }
+        .history-item:hover { background: var(--card); border-color: rgba(255,255,255,0.12); }
+        .history-item-left {
+            display: flex; align-items: center; gap: 12px;
+            flex: 1; min-width: 0;
+        }
+        .history-item-left i { color: var(--muted); font-size: 13px; flex-shrink: 0; }
+        .history-item-text {
+            font-size: 14px; color: rgba(255,255,255,0.8);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .history-item-time { font-size: 11px; color: var(--muted); margin-right: 12px; flex-shrink: 0; }
+        .history-remove {
+            background: none; border: none; color: var(--muted);
+            font-size: 12px; cursor: pointer; padding: 2px 6px;
+            border-radius: 4px; transition: all 0.2s; flex-shrink: 0;
+        }
+        .history-remove:hover { color: var(--red); background: rgba(229,9,20,0.1); }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-8px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ── Movie result cards ── */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .movie-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            animation: cardIn 0.35s ease both;
+        }
+        .movie-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(229,9,20,0.4);
+            box-shadow: 0 12px 40px rgba(229,9,20,0.15);
+        }
+        .movie-card-poster {
+            width: 100%; aspect-ratio: 2/3;
+            background: var(--surface);
+            position: relative; overflow: hidden;
+        }
+        .movie-card-poster img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .movie-card:hover .movie-card-poster img { transform: scale(1.06); }
+        .movie-card-poster .poster-placeholder {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 8px; color: var(--muted);
+        }
+        .movie-card-poster .poster-placeholder i { font-size: 32px; }
+        .poster-badge {
+            position: absolute; top: 8px; left: 8px;
+            background: var(--red);
+            font-size: 9px; font-weight: 700;
+            padding: 2px 7px; border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+        .movie-card-info { padding: 10px 12px 12px; }
+        .movie-card-title {
+            font-size: 13px; font-weight: 600;
+            line-height: 1.3; margin-bottom: 4px;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .movie-card-meta {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 11px; color: var(--muted);
+        }
+        .movie-card-meta .rating { color: #f5c518; }
+        .movie-card-meta .dot { width: 2px; height: 2px; background: var(--muted); border-radius: 50%; }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── No results ── */
+        .no-results {
+            text-align: center; padding: 80px 20px;
+            animation: heroIn 0.4s ease both;
+        }
+        .no-results i { font-size: 48px; color: var(--muted); margin-bottom: 16px; display: block; }
+        .no-results h3 { font-family: var(--font-display); font-size: 28px; letter-spacing: 1px; margin-bottom: 8px; }
+        .no-results p  { color: var(--muted); font-size: 14px; }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center; padding: 40px 20px;
+            color: var(--muted); font-size: 13px;
+        }
+
+        /* ── Trending tags ── */
+        .trending-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .trending-tag {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-size: 13px; color: rgba(255,255,255,0.65);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .trending-tag i { color: var(--red); margin-right: 6px; font-size: 11px; }
+        .trending-tag:hover { background: var(--card); color: #fff; border-color: rgba(255,255,255,0.15); }
+
+        /* ── Loading skeleton ── */
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .skeleton-card {
+            background: var(--card); border-radius: 12px; overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .skeleton-poster { width: 100%; aspect-ratio: 2/3; background: var(--surface); position: relative; overflow: hidden; }
+        .skeleton-info { padding: 10px 12px 12px; }
+        .skeleton-line {
+            height: 12px; border-radius: 6px; background: var(--surface);
+            margin-bottom: 8px; position: relative; overflow: hidden;
+        }
+        .skeleton-line::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+            animation: shimmer 1.4s infinite;
+        }
+        @keyframes shimmer {
+            from { transform: translateX(-100%); }
+            to   { transform: translateX(100%); }
+        }
+        .skeleton-line.short { width: 60%; }
+
+        /* ── Divider ── */
+        .section-divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* ── Mobile ── */
+        @media (max-width: 640px) {
+            .navbar { padding: 0 20px; }
+            .search-hero { padding: 48px 20px 32px; }
+            .search-hero.compact { padding: 24px 20px 16px; }
+            .results-area { padding: 0 20px 48px; }
+            .results-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a class="nav-brand" href="ott-html.html">MAGNEMITE</a>
+        <button class="nav-back" onclick="history.back()">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+    </nav>
+
+    <div class="page-wrap">
+
+        <!-- Search Hero -->
+        <div class="search-hero" id="searchHero">
+            <h1>FIND YOUR <span>FILM</span></h1>
+            <p>Search movies, TV series, and more</p>
+
+            <div class="search-box-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                <input
+                    type="text"
+                    class="search-box"
+                    id="searchInput"
+                    placeholder="Search for a movie, series, actor…"
+                    autocomplete="off"
+                    autofocus
+                    oninput="onSearchInput(this.value)"
+                    onkeydown="onSearchKeydown(event)"
+                >
+                <button class="search-clear" id="clearBtn" onclick="clearSearch()" title="Clear">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Genre pills -->
+            <div class="category-pills" id="categoryPills">
+                <span class="pill" onclick="pillSearch(this,'Action')">Action</span>
+                <span class="pill" onclick="pillSearch(this,'Drama')">Drama</span>
+                <span class="pill" onclick="pillSearch(this,'Sci-Fi')">Sci-Fi</span>
+                <span class="pill" onclick="pillSearch(this,'Horror')">Horror</span>
+                <span class="pill" onclick="pillSearch(this,'Comedy')">Comedy</span>
+                <span class="pill" onclick="pillSearch(this,'Thriller')">Thriller</span>
+                <span class="pill" onclick="pillSearch(this,'Animation')">Animation</span>
+                <span class="pill" onclick="pillSearch(this,'Romance')">Romance</span>
+            </div>
+        </div>
+
+        <!-- Results area -->
+        <div class="results-area" id="resultsArea">
+
+            <!-- History section -->
+            <div id="historySection"></div>
+
+            <!-- Trending section (shown when no query) -->
+            <div id="trendingSection"></div>
+
+            <!-- Live results section -->
+            <div id="liveResults"></div>
+
+        </div>
+    </div>
+
+    <script>
+    /* ══════════════════════════════════════════════════
+       MAGNEMITE  –  Search Page
+       • Live fuzzy search against movie catalogue
+       • Search history saved in localStorage
+       • Genre pill quick-filters
+    ══════════════════════════════════════════════════ */
+
+    /* ── Movie catalogue ──
+       In a real app this would come from an API.
+       Structured as: { title, year, genre[], rating, type, badge }
+    ── */
+   const CATALOGUE = [
+    { 
+        title: "Jurassic World: Dominion", 
+        year: 2022, 
+        genre: ["Action", "Sci-Fi", "Adventure"], 
+        rating: "6.1", 
+        type: "Movie", 
+        badge: "4K", 
+        image: "https://image.tmdb.org/t/p/w500/kAVRgw7pZpL1pPc5uVduG6H6u6d.jpg" 
+    },
+    { 
+        title: "Avatar: The Way of Water", 
+        year: 2022, 
+        genre: ["Sci-Fi", "Adventure", "Action"], 
+        rating: "7.6", 
+        type: "Movie", 
+        badge: "4K", 
+        image: "https://image.tmdb.org/t/p/w500/t6SnaoqUXnCfs0oBmFaXYC9vUQC.jpg" 
+    },
+    { 
+        title: "Top Gun: Maverick", 
+        year: 2022, 
+        genre: ["Action", "Drama"], 
+        rating: "8.2", 
+        type: "Movie", 
+        badge: "HDR", 
+        image: "https://image.tmdb.org/t/p/w500/62HCnUTziL75KWvYW6DYfwP76Mp.jpg" 
+    },
+    { 
+        title: "Dune: Part Two", 
+        year: 2024, 
+        genre: ["Sci-Fi", "Adventure", "Drama"], 
+        rating: "8.5", 
+        type: "Movie", 
+        badge: "NEW", 
+        image: "https://image.tmdb.org/t/p/w500/8uS6bS960ov9P69I9UaD1U6MGQZ.jpg" 
+    },
+    { 
+        title: "The Batman", 
+        year: 2022, 
+        genre: ["Action", "Thriller", "Drama"], 
+        rating: "7.8", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onun.jpg" 
+    },
+    { 
+        title: "Interstellar", 
+        year: 2014, 
+        genre: ["Sci-Fi", "Drama", "Adventure"], 
+        rating: "8.7", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlSv7hZ.jpg" 
+    },
+    { 
+        title: "Oppenheimer", 
+        year: 2023, 
+        genre: ["Drama", "Thriller", "History"], 
+        rating: "8.9", 
+        type: "Movie", 
+        badge: "AWARD", 
+        image: "https://image.tmdb.org/t/p/w500/8Gxv2mYgiFAhshM3OujS1Q8XBoL.jpg" 
+    },
+    { 
+        title: "Barbie", 
+        year: 2023, 
+        genre: ["Comedy", "Fantasy", "Adventure"], 
+        rating: "6.9", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/iuFNmBTD0X4EXITrvBk3uPrcjM4.jpg" 
+    },
+    { 
+        title: "John Wick: Chapter 4", 
+        year: 2023, 
+        genre: ["Action", "Thriller"], 
+        rating: "7.7", 
+        type: "Movie", 
+        badge: "4K", 
+        image: "https://image.tmdb.org/t/p/w500/gh2bmEXREUZlsO7du0UbiTVmYGa.jpg" 
+    },
+    { 
+        title: "Fantastic Four", 
+        year: 2025, 
+        genre: ["Action", "Sci-Fi", "Adventure"], 
+        rating: "7.2", 
+        type: "Movie", 
+        badge: "NEW", 
+        image: "https://via.placeholder.com/500x750?text=Fantastic+Four" 
+    },
+    { 
+        title: "F1", 
+        year: 2025, 
+        genre: ["Action", "Drama", "Sport"], 
+        rating: "7.5", 
+        type: "Movie", 
+        badge: "NEW", 
+        image: "https://via.placeholder.com/500x750?text=F1+Movie" 
+    },
+    { 
+        title: "Frankenstein", 
+        year: 2025, 
+        genre: ["Horror", "Drama"], 
+        rating: "6.8", 
+        type: "Movie", 
+        badge: "NEW", 
+        image: "https://via.placeholder.com/500x750?text=Frankenstein" 
+    },
+    { 
+        title: "Dracula", 
+        year: 2024, 
+        genre: ["Horror", "Thriller"], 
+        rating: "7.0", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://via.placeholder.com/500x750?text=Dracula" 
+    },
+    { 
+        title: "Stranger Things", 
+        year: 2022, 
+        genre: ["Sci-Fi", "Horror", "Drama"], 
+        rating: "8.7", 
+        type: "Series", 
+        badge: "S4", 
+        image: "https://image.tmdb.org/t/p/w500/49WJfev0moxm9pY9RuS0YpCXpbi.jpg" 
+    },
+    { 
+        title: "The Last of Us", 
+        year: 2023, 
+        genre: ["Drama", "Horror", "Thriller"], 
+        rating: "8.8", 
+        type: "Series", 
+        badge: "S2", 
+        image: "https://image.tmdb.org/t/p/w500/uKVH66_6Zz6fVEUasZveZ8S998C.jpg" 
+    },
+    { 
+        title: "House of the Dragon", 
+        year: 2022, 
+        genre: ["Drama", "Action", "Fantasy"], 
+        rating: "8.5", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/7996De6vJ03Q61h5109fD9f57E7.jpg" 
+    },
+    { 
+        title: "Wednesday", 
+        year: 2022, 
+        genre: ["Comedy", "Horror", "Mystery"], 
+        rating: "8.1", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/9PFonB9tS3NI6oq9STOutYMDodb.jpg" 
+    },
+    { 
+        title: "Succession", 
+        year: 2023, 
+        genre: ["Drama", "Thriller", "Comedy"], 
+        rating: "8.9", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/789S4Vre9Y9P4640o9n6z7v6k2C.jpg" 
+    },
+    { 
+        title: "The Bear", 
+        year: 2022, 
+        genre: ["Drama", "Comedy"], 
+        rating: "8.6", 
+        type: "Series", 
+        badge: "S3", 
+        image: "https://image.tmdb.org/t/p/w500/p86Z9S998C.jpg" 
+    },
+    { 
+        title: "Shogun", 
+        year: 2024, 
+        genre: ["Drama", "History", "Action"], 
+        rating: "8.9", 
+        type: "Series", 
+        badge: "NEW", 
+        image: "https://image.tmdb.org/t/p/w500/7O4SByBBSnUhc0qsptSTBhqG58n.jpg" 
+    },
+    { 
+        title: "Fallout", 
+        year: 2024, 
+        genre: ["Sci-Fi", "Action", "Comedy"], 
+        rating: "8.5", 
+        type: "Series", 
+        badge: "NEW", 
+        image: "https://image.tmdb.org/t/p/w500/r5iXmUe2i8mH6zX2b6Z6Z6Z6Z6Z6.jpg" 
+    },
+    { 
+        title: "The Penguin", 
+        year: 2024, 
+        genre: ["Action", "Drama", "Thriller"], 
+        rating: "8.2", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/a3Z0mUe2i8mH6zX2b6Z6Z6Z6Z6Z6.jpg" 
+    },
+    { 
+        title: "Arcane", 
+        year: 2021, 
+        genre: ["Animation", "Action", "Drama"], 
+        rating: "9.0", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/fqld9271Qp6t606Y90B9ls9uC3W.jpg" 
+    },
+    { 
+        title: "Demon Slayer", 
+        year: 2021, 
+        genre: ["Animation", "Action", "Drama"], 
+        rating: "8.7", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/xUfSjsmFvGf6ao9pXwu0RiXYPhv.jpg" 
+    },
+    { 
+        title: "One Piece", 
+        year: 2023, 
+        genre: ["Action", "Adventure", "Comedy"], 
+        rating: "8.4", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/29n7687o6pY7SshMcl93uYvX76D.jpg" 
+    },
+    { 
+        title: "Black Mirror", 
+        year: 2023, 
+        genre: ["Sci-Fi", "Drama", "Thriller"], 
+        rating: "8.0", 
+        type: "Series", 
+        badge: "S6", 
+        image: "https://image.tmdb.org/t/p/w500/7996De6vJ03Q61h5109fD9f57E7.jpg" 
+    },
+    { 
+        title: "True Detective: Night Country", 
+        year: 2024, 
+        genre: ["Thriller", "Drama", "Mystery"], 
+        rating: "7.8", 
+        type: "Series", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/v9G0mE2i8mH6zX2b6Z6Z6Z6Z6Z6.jpg" 
+    },
+    { 
+        title: "The Substance", 
+        year: 2024, 
+        genre: ["Horror", "Sci-Fi", "Comedy"], 
+        rating: "7.5", 
+        type: "Movie", 
+        badge: "NEW", 
+        image: "https://image.tmdb.org/t/p/w500/lqoMzCcSccwHn2H9v96o7hf799c.jpg" 
+    },
+    { 
+        title: "Civil War", 
+        year: 2024, 
+        genre: ["Action", "Drama", "Thriller"], 
+        rating: "7.3", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/sh7E6Z00669p2v6IB9vR68tAnIn.jpg" 
+    },
+    { 
+        title: "Kingdom of the Planet of the Apes", 
+        year: 2024, 
+        genre: ["Sci-Fi", "Action", "Adventure"], 
+        rating: "7.1", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/gKkl37BQuKT6S6fKWgoIfeovlsH.jpg" 
+    },
+    { 
+        title: "Deadpool & Wolverine", 
+        year: 2024, 
+        genre: ["Action", "Comedy", "Sci-Fi"], 
+        rating: "7.8", 
+        type: "Movie", 
+        badge: "4K", 
+        image: "https://image.tmdb.org/t/p/w500/8cdWjvZQUmOZpYvYSy2S6HpsYNT.jpg" 
+    },
+    { 
+        title: "Alien: Romulus", 
+        year: 2024, 
+        genre: ["Horror", "Sci-Fi", "Thriller"], 
+        rating: "7.3", 
+        type: "Movie", 
+        badge: "", 
+        image: "https://image.tmdb.org/t/p/w500/b33mAd7vKiS2oLjaopI1N0Nr9p.jpg" 
+    }
+];
+
+    const TRENDING_SEARCHES = [
+        "Dune", "Oppenheimer", "The Last of Us", "John Wick", "Avatar",
+        "Stranger Things", "Arcane", "Top Gun", "Deadpool", "Shogun"
+    ];
+
+    let searchTimer = null;
+    let currentQuery = '';
+    let activePill   = null;
+
+    /* ── localStorage helpers ── */
+    const HISTORY_KEY = 'mg_search_history';
+    function getHistory() {
+        try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e) { return []; }
+    }
+    function saveHistory(arr) { localStorage.setItem(HISTORY_KEY, JSON.stringify(arr)); }
+    function addToHistory(query) {
+        if (!query || query.trim().length < 2) return;
+        query = query.trim();
+        let history = getHistory().filter(h => h.text.toLowerCase() !== query.toLowerCase());
+        history.unshift({ text: query, time: Date.now() });
+        if (history.length > 20) history = history.slice(0, 20);
+        saveHistory(history);
+    }
+    function removeFromHistory(index) {
+        const history = getHistory();
+        history.splice(index, 1);
+        saveHistory(history);
+        renderHome();
+    }
+    function clearAllHistory() {
+        if (confirm('Clear all search history?')) {
+            localStorage.removeItem(HISTORY_KEY);
+            renderHome();
+        }
+    }
+    function timeAgo(ts) {
+        const diff = Date.now() - ts;
+        const m = Math.floor(diff / 60000);
+        const h = Math.floor(diff / 3600000);
+        const d = Math.floor(diff / 86400000);
+        if (m < 1)  return 'just now';
+        if (m < 60) return m + 'm ago';
+        if (h < 24) return h + 'h ago';
+        return d + 'd ago';
+    }
+
+    /* ── Search logic ── */
+    function searchCatalogue(query) {
+        const q = query.toLowerCase().trim();
+        if (!q) return [];
+        return CATALOGUE.filter(m =>
+            m.title.toLowerCase().includes(q) ||
+            m.genre.some(g => g.toLowerCase().includes(q)) ||
+            m.year.toString().includes(q) ||
+            m.type.toLowerCase().includes(q)
+        ).sort((a, b) => {
+            // Exact title match first
+            const aExact = a.title.toLowerCase().startsWith(q) ? 0 : 1;
+            const bExact = b.title.toLowerCase().startsWith(q) ? 0 : 1;
+            if (aExact !== bExact) return aExact - bExact;
+            return parseFloat(b.rating) - parseFloat(a.rating);
+        });
+    }
+
+    /* ── Input handler ── */
+    function onSearchInput(value) {
+        currentQuery = value;
+        document.getElementById('clearBtn').classList.toggle('visible', value.length > 0);
+
+        if (activePill && !isPillActive(value)) {
+            if (activePill) activePill.classList.remove('active');
+            activePill = null;
+        }
+
+        clearTimeout(searchTimer);
+        if (!value.trim()) {
+            renderHome();
+            return;
+        }
+
+        // Compact hero on typing
+        document.getElementById('searchHero').classList.add('compact');
+
+        // Show skeleton briefly for feel
+        showSkeleton();
+        searchTimer = setTimeout(() => {
+            const results = searchCatalogue(value);
+            renderResults(value, results);
+        }, 180);
+    }
+
+    function isPillActive(value) {
+        if (!activePill) return false;
+        return activePill.textContent === value;
+    }
+
+    function onSearchKeydown(e) {
+        if (e.key === 'Enter' && currentQuery.trim()) {
+            addToHistory(currentQuery.trim());
+            clearTimeout(searchTimer);
+            const results = searchCatalogue(currentQuery);
+            renderResults(currentQuery, results);
+        }
+    }
+
+    function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        currentQuery = '';
+        document.getElementById('clearBtn').classList.remove('visible');
+        document.getElementById('searchHero').classList.remove('compact');
+        if (activePill) { activePill.classList.remove('active'); activePill = null; }
+        renderHome();
+        document.getElementById('searchInput').focus();
+    }
+
+    function pillSearch(el, genre) {
+        if (activePill) activePill.classList.remove('active');
+        if (activePill === el) { activePill = null; clearSearch(); return; }
+        activePill = el;
+        el.classList.add('active');
+        document.getElementById('searchInput').value = genre;
+        document.getElementById('clearBtn').classList.add('visible');
+        document.getElementById('searchHero').classList.add('compact');
+        currentQuery = genre;
+        const results = searchCatalogue(genre);
+        renderResults(genre, results);
+    }
+
+    function clickHistory(text) {
+        document.getElementById('searchInput').value = text;
+        currentQuery = text;
+        document.getElementById('clearBtn').classList.add('visible');
+        document.getElementById('searchHero').classList.add('compact');
+        const results = searchCatalogue(text);
+        renderResults(text, results);
+        addToHistory(text);
+    }
+
+    /* ── Render: Home (no query) ── */
+    function renderHome() {
+        document.getElementById('liveResults').innerHTML = '';
+        document.getElementById('searchHero').classList.remove('compact');
+        renderHistorySection();
+        renderTrendingSection();
+    }
+
+    function renderHistorySection() {
+        const history = getHistory();
+        const el = document.getElementById('historySection');
+        if (!history.length) { el.innerHTML = ''; return; }
+
+        el.innerHTML = `
+            <div class="section-header">
+                <div class="section-title">RECENT <span>SEARCHES</span></div>
+                <button class="section-action" onclick="clearAllHistory()">
+                    <i class="fa-solid fa-trash-can me-1"></i> Clear all
+                </button>
+            </div>
+            <div class="history-list">
+                ${history.slice(0,8).map((h, i) => `
+                    <div class="history-item" onclick="clickHistory('${escHtml(h.text)}')" style="animation-delay:${i*40}ms">
+                        <div class="history-item-left">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <span class="history-item-text">${escHtml(h.text)}</span>
+                        </div>
+                        <span class="history-item-time">${timeAgo(h.time)}</span>
+                        <button class="history-remove" onclick="event.stopPropagation(); removeFromHistory(${i})" title="Remove">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                `).join('')}
+            </div>
+            <hr class="section-divider">
+        `;
+    }
+
+    function renderTrendingSection() {
+        const el = document.getElementById('trendingSection');
+        el.innerHTML = `
+            <div class="section-header" style="margin-bottom:16px">
+                <div class="section-title">TRENDING <span>NOW</span></div>
+            </div>
+            <div class="trending-tags">
+                ${TRENDING_SEARCHES.map((t,i) => `
+                    <div class="trending-tag" onclick="clickHistory('${escHtml(t)}')" style="animation-delay:${i*30}ms">
+                        <i class="fa-solid fa-fire"></i>${escHtml(t)}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    /* ── Render: Skeleton ── */
+    function showSkeleton() {
+        document.getElementById('historySection').innerHTML = '';
+        document.getElementById('trendingSection').innerHTML = '';
+        document.getElementById('liveResults').innerHTML = `
+            <div class="skeleton-grid">
+                ${Array(8).fill(0).map(() => `
+                    <div class="skeleton-card">
+                        <div class="skeleton-poster"></div>
+                        <div class="skeleton-info">
+                            <div class="skeleton-line"></div>
+                            <div class="skeleton-line short"></div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    /* ── Render: Results ── */
+    function renderResults(query, results) {
+        document.getElementById('historySection').innerHTML = '';
+        document.getElementById('trendingSection').innerHTML = '';
+        const el = document.getElementById('liveResults');
+
+        if (!results.length) {
+            el.innerHTML = `
+                <div class="no-results">
+                    <i class="fa-solid fa-film"></i>
+                    <h3>NO RESULTS FOR "${escHtml(query.toUpperCase())}"</h3>
+                    <p>Try a different keyword, genre, or year.</p>
+                </div>
+            `;
+            return;
+        }
+
+        const movies  = results.filter(r => r.type === 'Movie');
+        const series  = results.filter(r => r.type === 'Series');
+
+        let html = `
+            <div class="section-header">
+                <div class="section-title">
+                    RESULTS <span>FOR "${escHtml(query.toUpperCase())}"</span>
+                </div>
+                <span style="font-size:12px;color:var(--muted)">${results.length} found</span>
+            </div>
+        `;
+
+        if (movies.length) {
+            html += renderCardGroup('MOVIES', movies);
+        }
+        if (series.length) {
+            if (movies.length) html += '<hr class="section-divider">';
+            html += renderCardGroup('TV SERIES', series);
+        }
+
+        el.innerHTML = html;
+    }
+
+    function renderCardGroup(label, items) {
+        return `
+            <div class="section-header" style="margin-bottom:14px">
+                <div class="section-title" style="font-size:16px;letter-spacing:1px">${label}</div>
+                <span style="font-size:12px;color:var(--muted)">${items.length}</span>
+            </div>
+            <div class="results-grid">
+                ${items.map((m, i) => `
+                    <div class="movie-card" onclick="handleCardClick('${escHtml(m.title)}')"
+                         style="animation-delay:${i * 40}ms">
+                        <div class="movie-card-poster">
+                            <div class="poster-placeholder">
+                                <i class="fa-solid fa-clapperboard"></i>
+                                <span style="font-size:10px;text-align:center;padding:0 8px">${escHtml(m.title)}</span>
+                            </div>
+                            ${m.badge ? `<span class="poster-badge">${m.badge}</span>` : ''}
+                        </div>
+                        <div class="movie-card-info">
+                            <div class="movie-card-title">${escHtml(m.title)}</div>
+                            <div class="movie-card-meta">
+                                <span class="rating"><i class="fa-solid fa-star" style="font-size:9px"></i> ${m.rating}</span>
+                                <span class="dot"></span>
+                                <span>${m.year}</span>
+                                <span class="dot"></span>
+                                <span>${m.genre[0]}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    /* ── Card click ── */
+    function handleCardClick(title) {
+        addToHistory(title);
+        // In a real app: navigate to movie detail page
+        // For now just acknowledge
+        const input = document.getElementById('searchInput');
+        input.value = title;
+        currentQuery = title;
+        document.getElementById('clearBtn').classList.add('visible');
+        const results = searchCatalogue(title);
+        renderResults(title, results);
+    }
+
+    /* ── Escape HTML helper ── */
+    function escHtml(str) {
+        return String(str)
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+            .replace(/'/g,'&#39;');
+    }
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', function () {
+        renderHome();
+        // Auto-focus on desktop
+        const input = document.getElementById('searchInput');
+        if (window.innerWidth > 640) input.focus();
+
+        // If navigated with a query param (?q=something)
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('q');
+        if (q) {
+            input.value = q;
+            onSearchInput(q);
+        }
+    });
+    </script>
+</body>
+</html>
