@@ -1,6 +1,7 @@
 🎬 MAGNEMITE – Premium OTT Streaming PlatformMAGNEMITE is a modern, high-performance web application designed to simulate a premium movie streaming experience. Built with a "cinematic dark mode" aesthetic, it features real-time search, user authentication, and a personalized watchlist system.
-🚀 Live Demo[Insert Your GitHub Pages Link Here]✨ 
-Key Features:
+🚀 Live Demo https://github.com/vaishnaviDevarapalli-liv/MAGNEMITE-OTT-Platform
+
+✨ Key Features:
 
 Cinematic Hero Interface: An immersive home page featuring dynamic video backgrounds and auto-playing trailers.
 
@@ -39,7 +40,7 @@ StorageBrowser:
 └── ott[1].css       # Custom Styles & Animations
 
 🔧 Installation & SetupClone the repository:
-Bashgit clone https://github.com/YOUR_USERNAME/MAGNEMITE-OTT-Platform.git
+Bashgit clone https://github.com/vaishnaviDevarapalli-liv/MAGNEMITE-OTT-Platform.git
 
 Navigate to the folder:Bashcd MAGNEMITE-OTT-Platform
 Run the app:Simply open ott-html.html in any modern web browser.
